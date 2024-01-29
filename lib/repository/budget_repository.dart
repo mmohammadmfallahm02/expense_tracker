@@ -67,6 +67,15 @@ class BudgetRepository extends Adapter<Budget> {
       }
     });
   }
+
+  Future<Budget?> getObjectByDate(
+      {required int month, required int year}) async {
+    return await _isar.budgets
+        .filter()
+        .monthEqualTo(month)
+        .yearEqualTo(year)
+        .findFirst();
+  }
 }
 
 
