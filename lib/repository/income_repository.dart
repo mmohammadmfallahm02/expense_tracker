@@ -37,10 +37,11 @@ class IncomeRepository extends Adapter<Income> {
   }
 
   @override
-  Future<void> deleteObject(int id) async {
+  Future<List<Income>> deleteObject(Income collection) async {
     await _isar.writeTxn(() async {
-      _isar.incomes.delete(id);
+      _isar.incomes.delete(collection.id);
     });
+    return await _isar.incomes.where().findAll();
   }
 
   @override

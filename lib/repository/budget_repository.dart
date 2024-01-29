@@ -36,10 +36,11 @@ class BudgetRepository extends Adapter<Budget> {
   }
 
   @override
-  Future<void> deleteObject(int id) async {
+  Future<List<Budget>> deleteObject(Budget collection) async {
     await _isar.writeTxn(() async {
-      _isar.budgets.delete(id);
+      _isar.budgets.delete(collection.id);
     });
+    return await _isar.budgets.where().findAll();
   }
 
   @override

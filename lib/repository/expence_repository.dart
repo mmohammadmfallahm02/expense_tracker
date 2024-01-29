@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:expense_tracker/collections/expense.dart';
 import 'package:expense_tracker/collections/receipt.dart';
 import 'package:expense_tracker/repository/adaptor.dart';
-import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 
 import '../services/isar_services.dart';
@@ -41,10 +38,12 @@ class ExpenseRepository extends Adapter<Expense> {
   }
 
   @override
-  Future<void> deleteObject(int id) async {
+  Future<List<Expense>> deleteObject(Expense collection) async {
     await _isar.writeTxn(() async {
-      _isar.expenses.delete(id);
+      await _isar.expenses.delete(collection.id);
     });
+
+    return await _isar.expenses.where().findAll();
   }
 
   @override
@@ -131,7 +130,7 @@ class ExpenseRepository extends Adapter<Expense> {
         .findAll();
   }
 
-  Future<List<Expense>> getObjectByGroupFilter(
+  Future<List<Expense>> getObjectsByGroupFilter(
       String searchText, DateTime dateTime) async {
     return await _isar.expenses
         .filter()
@@ -225,8 +224,8 @@ class ExpenseRepository extends Adapter<Expense> {
     return await _isar.expenses.where().findAll();
   }
 
-  Future<List<Expense>> getTotalObjects() async {
-    return await _isar.expenses.where().findAll();
+  Future<int> getTotalObjects() async {
+    return await _isar.expenses.where().count();
   }
 
   Future<void> clearData() async {

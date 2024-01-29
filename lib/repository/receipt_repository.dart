@@ -37,10 +37,11 @@ class ReceiptsRepository extends Adapter<Receipts> {
   }
 
   @override
-  Future<void> deleteObject(int id) async {
+  Future<List<Receipts>> deleteObject(Receipts collection) async {
     await _isar.writeTxn(() async {
-      _isar.receipts.delete(id);
+      _isar.receipts.delete(collection.id);
     });
+    return await _isar.receipts.where().findAll();
   }
 
   @override
@@ -99,5 +100,4 @@ class ReceiptsRepository extends Adapter<Receipts> {
       }
     });
   }
-  
 }

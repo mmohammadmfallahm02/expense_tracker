@@ -11,7 +11,7 @@ abstract class Adapter<T> {
 
   Future<void> updateObject(T collection);
 
-  Future<void> deleteObject(int id);
+  Future<List<T>> deleteObject(T collection);
 
   Future<void> deleteMultipleObjects(List<int> ids);
 }
